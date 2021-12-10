@@ -11,16 +11,29 @@ class SpreadsheetModel {
     public $city;
     public $concessionaire;
 
-    function __construct($array) {
-        $this->timestamp = $array[0];
-        $this->user_name = $array[1];
-        $this->user_lastname = $array[2];
-        $this->email = $array[3];
-        $this->phone = $array[4];
-        $this->card = $array[5];
-        $this->id_card = $array[6];
-        $this->city = $array[7];
-        $this->concessionaire = $array[8];
+    function __construct($data,$isArray = false) { 
+        if($isArray){ 
+            $this->timestamp = $data[0];
+            $this->user_name = $data[1];
+            $this->user_lastname = $data[2];
+            $this->email = $data[3];
+            $this->phone = $data[4];
+            $this->card = $data[5];
+            $this->id_card = $data[6];
+            $this->city = $data[7];
+            $this->concessionaire = $data[8];
+        }else{
+            $this->id = $data->id;
+            $this->timestamp = $data->timestamp;
+            $this->user_name = $data->user_name;
+            $this->user_lastname = $data->user_lastname;
+            $this->email = $data->email;
+            $this->phone = $data->phone;
+            $this->card = $data->card;
+            $this->id_card = $data->id_card;
+            $this->city = $data->city;
+            $this->concessionaire = $data->concessionaire;
+        }
     }
 }
 

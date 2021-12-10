@@ -38,7 +38,8 @@ class DbContext {
             concessionaire VARCHAR(100) NOT NULL,
             createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
             sent BOOLEAN DEFAULT 0,
-            sentAt DATETIME DEFAULT NULL
+            sentAt DATETIME DEFAULT NULL,
+            errorMessage VARCHAR(25) DEFAULT "NULL"
             )';
 
         try {
