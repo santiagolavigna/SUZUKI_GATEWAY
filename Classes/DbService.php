@@ -38,7 +38,7 @@ class DbService {
 
             $index = $qry->execute();
             $result = $qry->fetchAll(PDO::FETCH_OBJ);
-            
+
             return isset($result[0]->id) ? $result[0]->id : 0;
 
         } catch (PDOException $e) {
@@ -68,23 +68,32 @@ class DbService {
       public static function updateRowByID($id) {
         try {
             $date = date('Y-m-d H:i:s');
-
+            $errorMesage = "NULL";
             DbContext::initialize();
             $qry = DbContext::getInstance()->prepare(
-                'UPDATE queue SET sent=1,sentAt=? WHERE id=?'
+                'UPDATE queue SET sent=1,sentAt=?,errorMessage=? WHERE id=?'
             );
 
-            $result = $qry->execute([$date,$id]);
-        
+            $result = $qry->execute([$date,$errorMesage,$id]);
             return $result;
 
-        } catch (PDOException $e) {
-            //TODO CREAR LOG CON EL ID DE REGISTRO PARA ACTUALIZARLO POR CRON
-        
-            //$logFile = fopen("log.txt", 'a') or die("Error creando archivo");
-            //fwrite($logFile, "\n".date("d/m/Y H:i:s")." Mensaje que se quiera grabar") or die("Error escribiendo en el archivo");fclose($logFile);
-    
+        } catch (Exception $e) {
             die("Error al actualizar el registro enviado a la API: " . $e->getMessage());
+        }
+    }
+
+    public static function updateRowErrorByID($id,$message) {
+        try {
+            $date = date('Y-m-d H:i:s');
+            DbContext::initialize();
+            $qry = DbContext::getInstance()->prepare(
+                'UPDATE queue SET errorMessage=?,sentAt=? WHERE id=?'
+            );
+            $result = $qry->execute([$message,$date,$id]);
+
+            return $result;
+        } catch (PDOException $e) {
+            die("Error al actualizar el campo errorMessage: " . $message . "ERROR= " . $e->getMessage());
         }
     }
 }
