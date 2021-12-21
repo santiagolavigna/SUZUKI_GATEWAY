@@ -31,7 +31,7 @@ if(!isset($data->error)){
         $count++;
     }
 
-    $result = DbService::getAllRows();
+    $result = DbService::getAllRows("queue","WHERE sent=0");
 
     if(!empty($result)){
 

@@ -47,11 +47,11 @@ class DbService {
     }
 
     //return all rows to send api
-    public static function getAllRows() {
+    public static function getAllRows($table,$where = '') {
         try {
             DbContext::initialize();
             $qry = DbContext::getInstance()->prepare(
-                'SELECT * FROM queue WHERE sent=0'
+                'SELECT * FROM ' . $table . ' ' . $where
             );
 
             $index = $qry->execute();
