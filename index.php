@@ -3,6 +3,9 @@
 //Enabled 'pdo_sqlite' in php.ini file
 //Enabled 'curl' in php.ini file
 
+define('GSHEET_URL_CSV', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZ5JsMaq_kiclDlHTWf7h6x2hI5eZ6LQGPOJyNwyDCO_dKWFEg2dSUk7GF_fK9HP43k7XeK_zJqvl5/pub?gid=0&single=true&output=csv');
+define('DERCO_URL_API', 'https://cariai.com/derco/sendhsmcity');
+
 require_once __DIR__ . '/Classes/Spreadsheet.php';
 require_once __DIR__ . '/Classes/DbContext.php';
 require_once __DIR__ . '/Classes/DbService.php';

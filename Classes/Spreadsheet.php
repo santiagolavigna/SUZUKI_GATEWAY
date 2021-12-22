@@ -3,7 +3,7 @@ class Spreadsheet {
     private $url;
 
     function __construct() {
-       $this->url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZ5JsMaq_kiclDlHTWf7h6x2hI5eZ6LQGPOJyNwyDCO_dKWFEg2dSUk7GF_fK9HP43k7XeK_zJqvl5/pub?gid=0&single=true&output=csv';
+       $this->url = GSHEET_URL_CSV;
     }
 
     function getRows() {

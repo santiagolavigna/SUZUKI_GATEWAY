@@ -4,7 +4,7 @@ class Sender {
 
     function __construct() {
         //TODO levantar de archivo de configuracion
-       $this->url = 'https://cariai.com/derco/sendhsmcity';
+       $this->url = DERCO_URL_API;
     }
 
 
@@ -13,6 +13,7 @@ class Sender {
         $response->data = false;
 
         try{
+
             $concessionaire = explode('-',$spm->concessionaire);
 
             $where = "WHERE city='" . $spm->city . "' AND concessionaire LIKE '" . trim($concessionaire[0]) . ' ' . trim($concessionaire[1]) . "%' LIMIT 1";
@@ -20,23 +21,18 @@ class Sender {
             $result = DbService::getAllRows("showcase",$where);
           
             if(!empty($result)){     
-                var_dump($spm);
-                var_dump($result); 
+               
 
             $data = array(
                     "name" => $spm->user_name . ' ' . $spm->user_lastname,
                     "cellphone" => $spm->phone,
                     "email" => $spm->email,
-                    //TRAERLO DE LA BASE, WHERE CONCESSIONAIRE = $SPM->CONCESSIONAIRE
-                    "car_brand" => $result[0]->brand,
-
+                    "car_brand" => ucfirst(strtolower($result[0]->brand)),
                     "vehicle" => "swift",
                     "identification" => $spm->id_card,
-                    "pieza" => "",
+                    "pieza" => "CT",
                     "buytime" => "",
                     "budget" => "",
-
-                    //TRAERLO DE LA BASE, WHERE CONCESSIONAIRE = $SPM->CONCESSIONAIRE
                     "city" => $result[0]->city,
                     "store" => $result[0]->id,
             );
@@ -51,7 +47,7 @@ class Sender {
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_POSTFIELDS => json_encode($data),
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Basic ZGVyY29Ic21MZWFkczpSaXNYMkZnd2Rk',
                     'Content-Type: text/plain',
@@ -62,10 +58,14 @@ class Sender {
             $curl_response = curl_exec($curl);
 
             curl_close($curl);
+            
+            $response_decoded = json_decode($curl_response);
+         
+            if(isset($response_decoded->status) && ($response_decoded->status == 200)){
+                $response->data = true;
+            }
 
-            die(var_dump($curl_response));
-
-            $response->data = true;
+            return $response;
         }else{
             $response->error = "No se encontro en la vitrina el concesionario: " . $spm->concessionaire ;
         }
