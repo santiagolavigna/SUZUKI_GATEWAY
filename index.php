@@ -1,6 +1,7 @@
 <?php
 //PHP 7.4
-//Enabled PDO_sqlite in php.ini file
+//Enabled 'pdo_sqlite' in php.ini file
+//Enabled 'curl' in php.ini file
 
 require_once __DIR__ . '/Classes/Spreadsheet.php';
 require_once __DIR__ . '/Classes/DbContext.php';

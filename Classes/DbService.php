@@ -53,7 +53,6 @@ class DbService {
             $qry = DbContext::getInstance()->prepare(
                 'SELECT * FROM ' . $table . ' ' . $where
             );
-
             $index = $qry->execute();
             $result = $qry->fetchAll(PDO::FETCH_OBJ);
 
