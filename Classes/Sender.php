@@ -3,7 +3,6 @@ class Sender {
     private $url;
 
     function __construct() {
-        //TODO levantar de archivo de configuracion
        $this->url = DERCO_URL_API;
     }
 
@@ -17,11 +16,11 @@ class Sender {
             $concessionaire = explode('-',$spm->concessionaire);
 
             $where = "WHERE city='" . $spm->city . "' AND concessionaire LIKE '" . trim($concessionaire[0]) . ' ' . trim($concessionaire[1]) . "%' LIMIT 1";
-            
+
             $result = DbService::getAllRows("showcase",$where);
-          
-            if(!empty($result)){     
-               
+
+            if(!empty($result)){
+
 
             $data = array(
                     "name" => $spm->user_name . ' ' . $spm->user_lastname,
@@ -58,9 +57,9 @@ class Sender {
             $curl_response = curl_exec($curl);
 
             curl_close($curl);
-            
+
             $response_decoded = json_decode($curl_response);
-         
+
             if(isset($response_decoded->status) && ($response_decoded->status == 200)){
                 $response->data = true;
             }
